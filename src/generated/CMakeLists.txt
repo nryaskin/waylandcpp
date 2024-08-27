@@ -17,11 +17,14 @@ execute_process(COMMAND ${WAYLANDCPP_GENERATOR} --config ${WAYLAND_XML_PATH} --d
 if (NOT WAYLANDCPP_GENERATOR_RESULT EQUAL 0)
     message(FATAL_ERROR "waylandcpp-generator dry-run error" ${WAYLANDCPP_GENERATOR_RESULT})
 endif()
-string(REPLACE "\n" ";" WAYLANDCPP_HEADERS_LIST WAYLANDCPP_HEADERS)
+string(REPLACE "\n" ";" WAYLANDCPP_HEADERS_LIST ${WAYLANDCPP_HEADERS})
 
 add_custom_command(OUTPUT ${WAYLANDCPP_HEADERS_LIST}
                    COMMENT "Generating waylandcpp headers from ${WAYLAND_XML_PATH}"
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                   COMMAND ${WAYLANDCPP_GENERATOR} --config ${WAYLAND_XML_PATH} --output ${CMAKE_CURRENT_BINARY_DIR})
+                   COMMAND ${WAYLANDCPP_GENERATOR} --config ${WAYLAND_XML_PATH} --output ${CMAKE_CURRENT_BINARY_DIR}
+                   DEPENDS ${WAYLAND_XML_PATH})
 
 add_library(waylandcpp-generated INTERFACE "${WAYLANDCPP_HEADERS_LIST}")
+target_include_directories(waylandcpp-generated INTERFACE
+    "${CMAKE_CURRENT_BINARY_DIR}/include")
