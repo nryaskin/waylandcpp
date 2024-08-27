@@ -19,25 +19,6 @@ cmake --build <BUILD_FOLDER>
 
 ### query-display
 For now only query display sample is supported. It uses _wl_output_ interface to query display information and display.
-Currently build is not working with generated headers from the start.
-It is needed to change `<BUILD_FOLDER>/src/generated/include/waylandcpp/wl_output.hpp` file.
-Hot fix:
-
-```
-$ diff wl_output.hpp wl_output.hpp.fixed
-134c134
-<         const std::string interface = "wl_output";
----
->         static const std::string interface;
-136c136,138
-< }
-\ No newline at end of file
----
-> 
->         const std::string wl_output::interface = "wl_output";
-> }
-
-```
 
 Example:
 ```

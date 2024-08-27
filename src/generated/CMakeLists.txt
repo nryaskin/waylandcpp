@@ -23,8 +23,7 @@ add_custom_command(OUTPUT ${WAYLANDCPP_HEADERS_LIST}
                    COMMENT "Generating waylandcpp headers from ${WAYLAND_XML_PATH}"
                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                    COMMAND ${WAYLANDCPP_GENERATOR} --config ${WAYLAND_XML_PATH} --output ${CMAKE_CURRENT_BINARY_DIR}
-                   DEPENDS ${WAYLAND_XML_PATH})
+                   DEPENDS ${WAYLAND_XML_PATH} ${WAYLANDCPP_GENERATOR})
 
 add_library(waylandcpp-generated INTERFACE "${WAYLANDCPP_HEADERS_LIST}")
-target_include_directories(waylandcpp-generated INTERFACE
-    "${CMAKE_CURRENT_BINARY_DIR}/include")
+target_include_directories(waylandcpp-generated INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/include")
